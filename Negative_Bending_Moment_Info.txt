@@ -1,0 +1,22 @@
+Negative Bending Moment:
+
+In file: Shear_and_Moment_6 Paddlers.csv
+Case 2: Neutral axis is in the wall
+The positive moment that can be resisted by the beam is 395.09547237076134Nm.
+The applied moment is -33.63731279999928 Nm.
+
+In file: Shear_and_Moment_4 Paddlers.csv
+Case 2: Neutral axis is in the wall
+The positive moment that can be resisted by the beam is 395.09547237076134Nm.
+The applied moment is -10.905926562435916 Nm.
+
+In file: Shear_and_Moment_2 Paddlers.csv
+Case 2: Neutral axis is in the wall
+The positive moment that can be resisted by the beam is 1918.6392930000127Nm.
+The applied moment is -194.4670904654451 Nm.
+
+In file: Shear_and_Moment_Display_Stand.csv
+Case 2: Neutral axis is in the wall
+The positive moment that can be resisted by the beam is 1918.6392930000127Nm.
+The applied moment is -291.8407854070631 Nm.
+
