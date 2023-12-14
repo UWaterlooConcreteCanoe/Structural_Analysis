@@ -2,21 +2,21 @@ Positive Bending Moment:
 
 In file: Shear_and_Moment_6 Paddlers.csv
 Over-reinforcement failure (desirable)
-The negative moment that can be resisted by the beam is 94.34844644840376Nm.
-The applied moment is 629.7064202282951 Nm.
+The negative moment that can be resisted by the beam is -4566.5030624121Nm.
+The applied moment is 662.8717809354249 Nm.
 
 In file: Shear_and_Moment_4 Paddlers.csv
 Over-reinforcement failure (desirable)
-The negative moment that can be resisted by the beam is 92.32601868749404Nm.
+The negative moment that can be resisted by the beam is -4566.9075479642825Nm.
 The applied moment is 551.4554348385294 Nm.
 
 In file: Shear_and_Moment_2 Paddlers.csv
 Over-reinforcement failure (desirable)
-The negative moment that can be resisted by the beam is 75.41327456549872Nm.
+The negative moment that can be resisted by the beam is -4570.29009678868Nm.
 The applied moment is 243.65822125004613 Nm.
 
 In file: Shear_and_Moment_Display_Stand.csv
 Over-reinforcement failure (desirable)
-The negative moment that can be resisted by the beam is -66.21069553209503Nm.
+The negative moment that can be resisted by the beam is -4598.614890808202Nm.
 The applied moment is 4.4423457447317777e-13 Nm.
 
