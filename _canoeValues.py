@@ -22,7 +22,7 @@ tensile_strength = 1.46 # MPa
 concrete_thickness = 18 # mm
 
 hasLayer1 = 1 # If the canoe has 1 layer of mesh
-d_mesh_1 = 10 # distance between the first layer of reinforcement to the surface [mm]
+d_mesh_1 = 8 # distance between the first layer of reinforcement to the surface [mm]
 hasLayer2 = 1 # If the canoe has 2 layers of mesh
 d_mesh_2 = 15 # distance between the second layer of reinforcement to the surface [mm]
 
