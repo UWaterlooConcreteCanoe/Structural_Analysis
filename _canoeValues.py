@@ -17,14 +17,14 @@ kneecap_width = 50 # Kneecap area width [mm]v
 
 # ------------ Canoe-specific Constants ------------ #
 concrete_density = 920 # kg/m^3 (dry density)
-compressive_strength = 16.98 # MPa (f_c)
-tensile_strength = 1.46 # MPa
-concrete_thickness = 18 # mm
+compressive_strength = 11 # MPa (f_c)
+tensile_strength = 1.1 # MPa
+concrete_thickness = 12 # mm
 
 hasLayer1 = 1 # If the canoe has 1 layer of mesh
-d_mesh_1 = 10 # distance between the first layer of reinforcement to the surface [mm]
-hasLayer2 = 1 # If the canoe has 2 layers of mesh
-d_mesh_2 = 15 # distance between the second layer of reinforcement to the surface [mm]
+d_mesh_1 = 8 # distance between the first layer of reinforcement to the surface [mm]
+hasLayer2 = 0 # If the canoe has 2 layers of mesh
+d_mesh_2 = 0 # distance between the second layer of reinforcement to the surface [mm]
 
 # ------------ Reinforcement Property ------------ #
 phi_s = 0.9 

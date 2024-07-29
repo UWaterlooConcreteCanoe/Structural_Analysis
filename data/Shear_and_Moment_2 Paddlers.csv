@@ -1,6 +1,6 @@
 ,Value,Station No,Max Width [mm],Max Depth [mm]
-Positive Shear [N],601.1575063979437,41,600.996265,342.5
-Negative Shear [N],-599.8084006021134,15,585.722941,342.5
-Positive Bending Moment [Nm],247.4468332759548,15,585.722941,342.5
-Negative Bending Moment [Nm],-188.46927949465035,28,659.984967,342.5
-Moment at the end [Nm],-0.49437736245136477,56,,
+Positive Shear [N],610.9357034526763,41,552.23892,327.5
+Negative Shear [N],-609.4660219503712,15,531.90674,327.5
+Positive Bending Moment [Nm],246.6951963456463,15,531.90674,327.5
+Negative Bending Moment [Nm],-200.39856295451233,28,659.817018,327.5
+Moment at the end [Nm],-0.2639972012034043,56,,
