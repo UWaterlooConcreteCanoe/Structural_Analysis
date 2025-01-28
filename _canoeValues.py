@@ -26,6 +26,9 @@ d_mesh_1 = 9 # distance between the first layer of reinforcement to the surface 
 hasLayer2 = 0 # If the canoe has 2 layers of mesh
 d_mesh_2 = 0 # distance between the second layer of reinforcement to the surface [mm]
 
+# Waterlines for 2, 3, 4, 6 paddler cases [mm]
+grasshopper = [150, 140, 140, 0]
+
 # ------------ Reinforcement Property ------------ #
 phi_s = 0.85
 fy = 1725 # [MPa] # outdated
