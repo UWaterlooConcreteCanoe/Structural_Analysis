@@ -17,7 +17,7 @@ kneecap_width = 50 # Kneecap area width [mm]
 
 # ------------ Canoe-specific Constants ------------ #
 concrete_density = 950 # kg/m^3 (dry density)
-compressive_strength = 13.08 # MPa (f_c)
+compressive_strength = 13 # MPa (f_c)
 tensile_strength = 1.6 # MPa
 concrete_thickness = 8 # mm
 
