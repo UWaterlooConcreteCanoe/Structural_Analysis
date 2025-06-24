@@ -26,3 +26,5 @@ Shear:
 	- We hate Q
 	- Calculate Q and I at any point in the station
 	- Basically similar process to above
+
+Hello!
