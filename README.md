@@ -19,12 +19,14 @@ Contains all constants used in the code, for variables, concrete properties, etc
 Ensure this is updated before running any scripts!
 
 ### Approximation-Vol Diff
+| Inner Hull | N/A |
+| Outer Hull | N/A |
 
-(Zach)
+The first part of this script is solving for the volume and mass of the canoe station by station. This is accomplished by subtracting the volume bound by the inner hull from the volume bound by the outer hull. Currently, this script also performs the longitudinal and shear analysis for the display case.
 
 ### Flexural Stress
 
-(Zach)
+The primary function of this script is to solve for the flexural stress experienced along the top and bottom of the canoe. These are plotted against the flexural resistence to develop plots of the bending moment envelope. This determines whether the canoe will fail in bending.
 
 ### Longitudinal Analysis_[2,3,4] Paddler
 
