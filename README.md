@@ -28,11 +28,11 @@ Ensure this is updated before running any scripts!
 
 ### Longitudinal Analysis_[2,3,4] Paddler
 
-(Shekinah)
+Calculates maximum shear force and bending moments that the canoe experiences in the case of the races. Creates shear force and bending moment diagrams. Also calculates the waterline, water weight, and canoe total weight.
 
 ### Longitudinal Analysis_[6] Paddler
 
-(Shekinah)
+Calculates maximum shear force and bending moments that the canoe experiences during the swamp test. Creates shear force and bending moment diagrams. Also calculates the waterline, water weight, and canoe total weight.
 
 ### Longitudinal Analysis_Transportation
 
@@ -59,7 +59,7 @@ Calculates the longitudinal shear stress at each station along the canoe along w
 
 ### Punching Shear Analysis
 
-(Shekinah)
+Calculates the punching shear stress at the canoe’s critical location, punching shear stress canoe resisted and compares the minimum punching shear resisted to the stress at critical location. Also calculates the minimum compressive strength required to resist punching shear.
 
 ### roadSurfaceModel
 
