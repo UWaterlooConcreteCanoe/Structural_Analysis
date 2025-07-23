@@ -19,14 +19,29 @@ Contains all constants used in the code, for variables, concrete properties, etc
 Ensure this is updated before running any scripts!
 
 ### Approximation-Vol Diff
+| CSV File | Script Output |
+| --- | --- |
 | Inner Hull | N/A |
 | Outer Hull | N/A |
 
 The first part of this script is solving for the volume and mass of the canoe station by station. This is accomplished by subtracting the volume bound by the inner hull from the volume bound by the outer hull. Currently, this script also performs the longitudinal and shear analysis for the display case.
 
 ### Flexural Stress
+| CSV File | Script Output |
+| --- | --- |
+| Inner Hull | N/A |
+| Outer Hull | N/A |
+| Station Information | Approximation-Vol Diff |
+| Length_vs_Moment_Display_Stand | Approximation-Vol Diff |
+| Length_vs_Moment_2 Paddler | Longitudinal Analysis_2 Paddler |
+| Length_vs_Moment_4 Paddler | Longitudinal Analysis_4 Paddler |
+| Length_vs_Moment_6 Paddler | Longitudinal Analysis_6 Paddler & Longitudinal Analysis_Transportation |
+| Shear_and_Moment_Display_Stand | Approximation-Vol Diff |
+| Shear_and_Moment_2 Paddler | Longitudinal Analysis_2 Paddler |
+| Shear_and_Moment_4 Paddler | Longitudinal Analysis_4 Paddler |
+| Shear_and_Moment_6 Paddler | Longitudinal Analysis_6 Paddler & Longitudinal Analysis_Transportation |
 
-The primary function of this script is to solve for the flexural stress experienced along the top and bottom of the canoe. These are plotted against the flexural resistence to develop plots of the bending moment envelope. This determines whether the canoe will fail in bending.
+For all load cases, solves for the stress experienced along the top and bottom of the canoe due to bending moment. The max tensile and compressive stresses can be compared with the concrete strength to determine if the canoe fails due to longitudinal bending. Plots the bending moment experienced in each case against the allowable bending moment to produce the resistance envelope plot.
 
 ### Longitudinal Analysis_[2,3,4] Paddler
 
@@ -38,7 +53,12 @@ Calculates maximum shear force and bending moments that the canoe experiences du
 
 ### Longitudinal Analysis_Transportation
 
-(Zach)
+**THIS SHOULD NOT BE RUN TO AVOID OVERWRITING CSVs**
+**Zach thinks he commented the sections that would overwrite but just to be safe**
+
+In theory this would obtain a maximum allowable acceleration based on the bending moment resistance obtained in FlexuralStress. In reality, that functionality is mostly hard-coded and it is almost entirely a copy of Longitudinal Analysis_6 Paddler. 
+
+
 
 ### Longitudinal Shear Analysis
 
@@ -49,13 +69,13 @@ Relies On:
 | Outer Hull | N/A |
 | Station Information | Approximation-Vol Diff |
 | Length_vs_Shear_Display_Stand | Approximation-Vol Diff |
-| Length_vs_Shear_2 Paddler | Length_vs_Shear_2 Paddler |
-| Length_vs_Shear_4 Paddler | Length_vs_Shear_4 Paddler |
-| Length_vs_Shear_6 Paddler | Length_vs_Shear_6 Paddler & Longitudinal Analysis_Transportation |
+| Length_vs_Shear_2 Paddler | Longitudinal Analysis_2 Paddler |
+| Length_vs_Shear_4 Paddler | Longitudinal Analysis_4 Paddler |
+| Length_vs_Shear_6 Paddler | Longitudinal Analysis_6 Paddler & Longitudinal Analysis_Transportation |
 | Shear_and_Moment_Display_Stand | Approximation-Vol Diff |
-| Shear_and_Moment_2 Paddler | Length_vs_Shear_2 Paddler |
-| Shear_and_Moment_4 Paddler | Length_vs_Shear_4 Paddler |
-| Shear_and_Moment_6 Paddler | Length_vs_Shear_6 Paddler & Longitudinal Analysis_Transportation |
+| Shear_and_Moment_2 Paddler | Longitudinal Analysis_2 Paddler |
+| Shear_and_Moment_4 Paddler | Longitudinal Analysis_4 Paddler |
+| Shear_and_Moment_6 Paddler | Longitudinal Analysis_6 Paddler & Longitudinal Analysis_Transportation |
 
 Calculates the longitudinal shear stress at each station along the canoe along with an envelope of the max and min allowabale shear stress, for each of the critical cases. It also plots the shear force of each of the critical cases on one graph along with the shear force envelope.
 
