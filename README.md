@@ -124,7 +124,7 @@ Enter the paddler number case, calculates the max transverse load and at which s
 
 Outputs: Station_Loads_6 Paddlers.csv
 
-### Transverse Shear from Center
+### Transverse Shear from centre
 
 WIP
 

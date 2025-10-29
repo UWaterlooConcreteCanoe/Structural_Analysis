@@ -1,7 +1,7 @@
 # Grasshopper waterline must be modified per script
 # ------------ Universal Constants ------------ #
 water_density = 1000 # Density of water = 1000 kg/m^3
-g = 9.81 # Gravity [m/s^2]
+g = 9.81 # Gravity [m/s^2]  
 # Weights in lbs 130,       150,        175,        200         140 :( [Kielen made me do this]
 pad_weights =   [58.967,    68.0389,    79.3787,    90.7185,    63.5029] # Paddler weight classes (kg)
 DLF = 1.25
@@ -28,7 +28,8 @@ hasLayer2 = 0 # If the canoe has 2 layers of mesh
 d_mesh_2 = 0 # distance between the second layer of reinforcement to the surface [mm]
 
 # Waterlines for 2, 3, 4, 6 paddler cases [mm]
-grasshopper = [150, 140, 140, 0]
+# grasshopper = [150, 140, 140, 0]
+grasshopper = [138.93, 138.93, 138.93, -100]
 
 # ------------ Reinforcement Property ------------ #
 phi_s = 0.85
