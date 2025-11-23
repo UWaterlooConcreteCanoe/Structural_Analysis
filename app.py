@@ -1,9 +1,12 @@
+import traceback
+
 import sys
 from PyQt6.QtWidgets import *
 import pyqtgraph as pg
 
 # IMPORT YOUR PAGE HERE!
 import app_pages.example as example
+import app_pages.flexuralStress as FlexuralStress
 
 # YOU CAN IGNORE THESE! Just click on the arrow to the left of "#region" on the line below this to hide this section.
 #region Helper Functions
@@ -133,6 +136,208 @@ def example_page():
 
     return widget
 
+def flexural_stress_page():
+
+    widget = QWidget()
+    try:
+        grid = QGridLayout()
+        widget.setLayout(grid)
+        
+        INPUT_FILES = ["Shear_and_Moment_6 Paddlers.csv", "Shear_and_Moment_4 Paddlers.csv", "Shear_and_Moment_3 Paddlers.csv", "Shear_and_Moment_2 Paddlers.csv", "Shear_and_Moment_Display_Stand.csv"]
+        MOMENT_FILES = ["Length_vs_Moment_6 Paddler.csv", "Length_vs_Moment_4 Paddler.csv", "Length_vs_Moment_3 Paddler.csv", "Length_vs_Moment_2 Paddler.csv", "Length_vs_Moment_Display_Stand.csv", ]
+        CASE_NAMES = ["Swamp", "4 Paddler", "3 Paddler", "2 Paddler", "Display Stand"]
+
+
+        
+        # You can use other layouts than grid, see https://www.pythonguis.com/tutorials/pyqt-layouts/
+        # However, for working with graphs, the grid layout is quite useful for keeping things the same size :)
+        # For the grid layout, you choose the coordinates of each item, with 0,0 being the top left
+        
+        PAD_CASE_STATIONS, PAD_CASE_LENGTH, PAD_CASE_MOMENT, stressTopByCase, stressBottomByCase, stations_mm, stressTopArray, stressBottomArray, resistanceCompTopArray, resistanceCompBottomArray, resistanceTensTopArray, resistanceTensBottomArray, stressTopByCase, stressBottomByCase, resistanceCompTopArrays, resistanceCompBottomArrays, resistanceTensTopArrays, resistanceTensBottomArrays = FlexuralStress.initialLoop(MOMENT_FILES)
+
+        station_mm_per_case = [stations_mm] * len(INPUT_FILES)
+
+
+        momentResultsByCase = []
+
+        momentResults = FlexuralStress.Max_Negative_Moments(INPUT_FILES)
+
+        momentResultString = ""
+        for file in momentResults:
+            fileResults = momentResults[file]
+            fileResultString = ""
+            # print(file, fileResults)
+            fileMomentResults = [
+                f"\tTensile Flexural Stress: {fileResults["tensile_flexural_stress"]} MPa",
+                f"\tCompressive Flexural Stress: {fileResults["compressive_flexural_stress"]} MPa",
+                f"\tApplied Negative Moment: {fileResults["applied_negative_moment"]} Nm",
+                f"\tStress Top: {fileResults["stress_top"]} MPa",
+                f"\tStress Bottom: {fileResults["stress_bottom"]} MPa",
+                f"\tResistance Top: {fileResults["resistance_top"]} Nm",
+                f"\tResistance Bottom: {fileResults["resistance_bottom"]} Nm",
+                "",
+                "",
+                f"\tExtrema of Envelope: {max(resistanceTensTopArray)}\t{min(resistanceTensBottomArray)}"
+            ]
+            caseName = CASE_NAMES[INPUT_FILES.index(file)] 
+            fileResultString += caseName + ":\n"
+            fileResultString += "\n".join(fileMomentResults) + "\n"
+            momentResultsByCase.append(fileResultString)
+
+            momentResultString+=fileResultString
+        
+        momentResultString += f"Max Envelope Value: {max(resistanceTensTopArray)} @ {resistanceTensTopArray.index(max(resistanceTensTopArray))} / {len(resistanceTensTopArray)}"
+
+
+
+        results = [
+            f"Max Compressive Stress Top: {max(stressTopArray)} MPa",
+            f"Max Tensile Stress Top: {min(stressTopArray)} MPa",
+            f"Max Compressive Stress Bottom: {max(stressBottomArray)} MPa",
+            f"Max Tensile Stress Bottom: {min(stressBottomArray)} MPa"
+        ]
+        resultString = "\n".join(results)
+
+        grid.addWidget(QLabel(resultString),0,0)
+
+
+
+            # # Plot top and bottom stress for each load case
+            # plt.plot(stations_mm, stressTopArray)
+            # # plt.axhline(y = -1, color = 'r', linestyle = '-') 
+            # plt.title('Top Stress')
+            # plt.xlabel('x (mm)')
+            # plt.yticks(np.arange(round(min(stressTopArray), 1) - 0.1,round(max(stressTopArray), 1) + 0.1,0.1))
+            # plt.ylabel('Stress (MPa)')
+            # plt.grid()
+            # plt.show()
+
+        Top_Stress_Stack_Layout = QStackedLayout()
+        Top_Stress_Graphs = []
+
+        for i in range(len(stressTopByCase)):
+            stressTop = stressTopByCase[i]
+            Top_Stress_Graph = plot(lambda: (stations_mm, stressTop, "Top Stress", "x (mm)", "Stress (MPa)"))
+            Top_Stress_Stack_Layout.addWidget(Top_Stress_Graph)
+            Top_Stress_Graphs.append(Top_Stress_Graph)
+
+
+            # plt.plot(stations_mm, stressBottomArray)
+            # plt.axhline(y = -cv.tensile_strength, color = 'r', linestyle = '-') 
+            # plt.title('Bottom Stress')
+            # plt.xlabel('x (mm)')
+            # plt.yticks(np.arange(round(-cv.tensile_strength, 1) - 0.1,round(max(stressBottomArray), 1) + 0.1,0.1))
+            # plt.ylabel('Stress (MPa)')
+            # plt.grid()
+            # plt.show()
+
+        Bottom_Stress_Stack_Layout = QStackedLayout()
+        Bottom_Stress_Graphs = []
+
+        for i in range(len(stressBottomByCase)):
+            stressBottom = stressBottomByCase[i]
+            Bottom_Stress_Graph = plot(lambda: (stations_mm, stressBottom, "Bottom Stress", "x (mm)", "Stress (MPa)"))
+            Bottom_Stress_Stack_Layout.addWidget(Bottom_Stress_Graph)
+            Bottom_Stress_Graphs.append(Bottom_Stress_Graph)
+
+        # grid.addWidget(Bottom_Stress_Graphs["Shear_and_Moment_6 Paddlers.csv"],1,1)
+
+
+        # plt.axhline(y = -cv.tensile_strength, color = 'r', linestyle = '-') 
+
+        # for i in range(len(stressTopByCase)):
+        #     plt.plot(stations_mm, stressTopByCase[i], label=CASE_NAMES[i])
+
+        # plt.title('Top Stress All Cases')
+        # plt.xlabel('x (mm)')
+        # plt.yticks(np.arange(round(min(min(np.array(stressTopByCase).flatten()), -cv.tensile_strength), 1) - 0.1,round(max(np.array(stressTopByCase).flatten()), 1) + 0.1,0.1))
+        # plt.ylabel('Stress (MPa)')
+        # plt.grid()
+        # plt.legend()
+        # plt.show()
+        
+
+        # print(stations_mm)
+        # print("\n"*5)
+        # print(station_mm_per_case)
+        # print(len(station_mm_per_case), len(stressTopByCase))
+        Top_Stress_All_Cases_Graph = plot(lambda: (station_mm_per_case, stressTopByCase, "Top Stress All Cases", "x (mm)", "Stress (MPa)"))
+        grid.addWidget(Top_Stress_All_Cases_Graph,2,1)
+
+        # for i in range(len(stressBottomByCase)):
+        #     plt.plot(stations_mm, stressBottomByCase[i], label=CASE_NAMES[i])
+
+        # plt.title('Bottom Stress All Cases')
+        # plt.xlabel('x (mm)')
+        # plt.yticks(np.arange(round(min(np.array(stressBottomByCase).flatten()), 1) - 0.1,round(max(np.array(stressBottomByCase).flatten()), 1) + 0.1,0.1))
+        # plt.ylabel('Stress (MPa)')
+        # plt.grid()
+        # plt.legend()
+        # plt.show()
+
+        Bottom_Stress_All_Cases_Graph = plot(lambda: (station_mm_per_case, stressBottomByCase, "Bottom Stress All Cases", "x (mm)", "Stress (MPa)"))
+        grid.addWidget(Bottom_Stress_All_Cases_Graph,2,0)
+
+        # # Tensile Resistance Envelope
+        # plt.plot(stations_mm, resistanceTensTopArray, color="purple", label="Envelope")
+        # plt.plot(stations_mm, resistanceTensBottomArray, color="purple")
+        # # plt.axhline(y = -cv.tensile_strength, color = 'r', linestyle = '-') 
+
+        Tensile_Resistance_Envelope_Graph = plot(lambda: ([stations_mm] * 2, [resistanceTensTopArray, resistanceTensBottomArray], "Tensile Resistance Envelope", "x (mm)", "Stress (MPa)"))
+        grid.addWidget(Tensile_Resistance_Envelope_Graph,3,0)
+
+
+        # # Plot all shear force diagrams (2, 3, 4, 6) cases graphed on one graph with the shear_capacity bound 
+        # for i in range(len(CASE_NAMES)):
+        #     lenArray = np.array(list())
+        #     shearArray = np.array(list())
+        #     plt.plot(PAD_CASE_LENGTH[i].astype(float), PAD_CASE_MOMENT[i].astype(float), label=CASE_NAMES[i])
+
+
+        # plt.axhline(max(stressTopArray), color="purple", label="Envelope")
+
+        # plt.title('Bending Moment Resistance Envelope')
+        # plt.xlabel('x (mm)')
+        # plt.ylabel('Max Moment (Nm)')
+        # plt.grid()
+        # plt.legend()
+        # plt.show()
+        
+
+
+        pad_case_length_values = []
+        pad_case_moment_values = []
+        for i in range(len(CASE_NAMES)):
+            pad_case_length_values.append(PAD_CASE_LENGTH[i].astype(float).to_numpy().tolist())
+            pad_case_moment_values.append(PAD_CASE_MOMENT[i].astype(float).to_numpy().tolist())
+
+        Bending_Moment_Resistance_Envelope_Graph = plot(lambda: (pad_case_length_values, pad_case_moment_values, "Bending Moment Resistance Envelope", "x (mm)", "Max Moment (Nm)"))
+        grid.addWidget(Bending_Moment_Resistance_Envelope_Graph,3,1)
+
+
+        # print("Extrema of Envelope:", max(resistanceTensTopArray), min(resistanceTensBottomArray))
+
+        momentResultLabel = QLabel(momentResultsByCase[0])
+
+        resultBoxLayout = QVBoxLayout()
+        combobox = QComboBox()
+        combobox.addItems(momentResults.keys())
+        combobox.currentIndexChanged.connect(lambda i: momentResultLabel.setText(momentResultsByCase[i]))
+        combobox.currentIndexChanged.connect(Top_Stress_Stack_Layout.setCurrentIndex)
+        combobox.currentIndexChanged.connect(Bottom_Stress_Stack_Layout.setCurrentIndex)
+
+        resultBoxLayout.addWidget(combobox)
+        resultBoxLayout.addWidget(momentResultLabel)
+
+        grid.addLayout(resultBoxLayout,1,0)
+        grid.addLayout(Top_Stress_Stack_Layout,0,1)
+        grid.addLayout(Bottom_Stress_Stack_Layout,1,1)
+
+    except Exception:
+        print(traceback.format_exc())
+
+    return widget
+
 def page_2():
     # Someone replace this with your page so people see the pattern lol
     return QWidget()
@@ -140,6 +345,7 @@ def page_2():
 # --- Array of Page Functions ---
 PAGE_ORDER = [
     example_page,
+    flexural_stress_page,
     page_2,
 ]
 
