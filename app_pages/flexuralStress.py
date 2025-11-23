@@ -51,6 +51,8 @@ stations_mm = [x * float(canoe_info[4][1]) for x in range(1,station_no-2,1)]
 # stressBottomByCase = []
 
 def initialLoop(moment_files):
+    print("Flexural Stress:\n")
+    print("Positive Moments for Every Station:\n")
     PAD_CASE_STATIONS = []
     PAD_CASE_LENGTH = []
     PAD_CASE_MOMENT = []
@@ -66,7 +68,7 @@ def initialLoop(moment_files):
 
     # Loop through each load case
     for input_file in moment_files:
-        # print("\033[4m" + input_file + ":\033[0m")
+        print("\033[4m" + input_file + ":\033[0m")
 
         # Get the moments for each station from the file
         file_path = os.path.join(script_dir, input_file)
@@ -202,13 +204,13 @@ def initialLoop(moment_files):
 
 def Max_Negative_Moments(input_files):
     # Negative moment - This has to be fixed
-    # print("Max Negative Moments:\n")
+    print("Max Negative Moments:\n")
     # Loop through each script
 
     results = {}
 
     for input_file in input_files:
-        # print("\033[4m" + input_file + ":\033[0m")
+        print("\033[4m" + input_file + ":\033[0m")
         file_path = os.path.join(script_dir, input_file)
         info = pd.read_csv(file_path, header=None)
 
@@ -297,7 +299,7 @@ def Max_Negative_Moments(input_files):
         # print("Stress Bottom: " + str(stress_bottom) + " MPa")
         # print("Resistance Top: " + str(resistance_top) + " Nm")
         # print("Resistance Bottom: " + str(resistance_bottom) + " Nm")
-        print("\n")
+        # print("\n")
         results[input_file] = {
             "applied_negative_moment": value,
 

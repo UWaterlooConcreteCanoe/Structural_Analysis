@@ -234,9 +234,13 @@ def flexural_stress_page():
     grid.addWidget(Tensile_Resistance_Envelope_Graph,3,0)
 
     # Bending Moment Resistance Envelope Graph
-    pad_case_length_values = []
-    pad_case_moment_values = []
+    pad_case_length_values = [stations_mm] * 2
+    pad_case_moment_values = [resistanceTensTopArray, resistanceTensBottomArray]
     for i in range(len(CASE_NAMES)):
+        #
+        # code was giving errors when I just copy pasted the ipynb code when calling plot()
+        # there is probably a better way to turn the panda csv into a regular list but I have never used numpy or panda
+        #
         pad_case_length_values.append(PAD_CASE_LENGTH[i].astype(float).to_numpy().tolist())
         pad_case_moment_values.append(PAD_CASE_MOMENT[i].astype(float).to_numpy().tolist())
 
