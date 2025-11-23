@@ -39,7 +39,7 @@ file_path = os.path.join(script_dir, "Station Information.csv")
 canoe_info = pd.read_csv(file_path, header=None)
 stations_mm = [x * float(canoe_info[4][1]) for x in range(1,station_no-2,1)]
 
-print("Positive Moments for Every Station:\n")
+# print("Positive Moments for Every Station:\n")
 
 # Store each paddler case's x and shear to recreate their shear force diagrams later
 # PAD_CASE_STATIONS = []
@@ -66,7 +66,7 @@ def initialLoop(moment_files):
 
     # Loop through each load case
     for input_file in moment_files:
-        print("\033[4m" + input_file + ":\033[0m")
+        # print("\033[4m" + input_file + ":\033[0m")
 
         # Get the moments for each station from the file
         file_path = os.path.join(script_dir, input_file)
@@ -186,31 +186,6 @@ def initialLoop(moment_files):
 
             ## <?><?><?>
             # Rearrange stress_top / stress_bottom
-
-
-        # print("Max Compressive Stress Top:", max(stressTopArray), "MPa")
-        # print("Max Tensile Stress Top:", min(stressTopArray), "MPa")
-        # print("Max Compressive Stress Bottom:", max(stressBottomArray), "MPa")
-        # print("Max Tensile Stress Bottom:", min(stressBottomArray), "MPa")
-
-        # # Plot top and bottom stress for each load case
-        # plt.plot(stations_mm, stressTopArray)
-        # # plt.axhline(y = -1, color = 'r', linestyle = '-') 
-        # plt.title('Top Stress')
-        # plt.xlabel('x (mm)')
-        # plt.yticks(np.arange(round(min(stressTopArray), 1) - 0.1,round(max(stressTopArray), 1) + 0.1,0.1))
-        # plt.ylabel('Stress (MPa)')
-        # plt.grid()
-        # plt.show()
-
-        # plt.plot(stations_mm, stressBottomArray)
-        # plt.axhline(y = -cv.tensile_strength, color = 'r', linestyle = '-') 
-        # plt.title('Bottom Stress')
-        # plt.xlabel('x (mm)')
-        # plt.yticks(np.arange(round(-cv.tensile_strength, 1) - 0.1,round(max(stressBottomArray), 1) + 0.1,0.1))
-        # plt.ylabel('Stress (MPa)')
-        # plt.grid()
-        # plt.show()
         
         stressTopByCase.append(stressTopArray)
         stressBottomByCase.append(stressBottomArray)
@@ -223,7 +198,7 @@ def initialLoop(moment_files):
 
         
     
-    return (PAD_CASE_STATIONS, PAD_CASE_LENGTH, PAD_CASE_MOMENT, stressTopByCase, stressBottomByCase, stations_mm, stressTopArray, stressBottomArray, resistanceCompTopArray, resistanceCompBottomArray, resistanceTensTopArray, resistanceTensBottomArray, stressTopByCase, stressBottomByCase, resistanceCompTopArrays, resistanceCompBottomArrays, resistanceTensTopArrays, resistanceTensBottomArrays)
+    return (PAD_CASE_LENGTH, PAD_CASE_MOMENT, stressTopByCase, stressBottomByCase, stations_mm, stressTopArray, stressBottomArray, resistanceTensTopArray, resistanceTensBottomArray)
 
 def Max_Negative_Moments(input_files):
     # Negative moment - This has to be fixed
@@ -233,7 +208,7 @@ def Max_Negative_Moments(input_files):
     results = {}
 
     for input_file in input_files:
-        print("\033[4m" + input_file + ":\033[0m")
+        # print("\033[4m" + input_file + ":\033[0m")
         file_path = os.path.join(script_dir, input_file)
         info = pd.read_csv(file_path, header=None)
 
