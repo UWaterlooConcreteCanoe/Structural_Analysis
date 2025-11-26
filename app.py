@@ -162,13 +162,13 @@ def flexural_stress_page():
         fileResults = momentResults[file]
         fileResultString = ""
         fileMomentResults = [
-            f"\tTensile Flexural Stress: {fileResults["tensile_flexural_stress"]} MPa",
-            f"\tCompressive Flexural Stress: {fileResults["compressive_flexural_stress"]} MPa",
-            f"\tApplied Negative Moment: {fileResults["applied_negative_moment"]} Nm",
-            f"\tStress Top: {fileResults["stress_top"]} MPa",
-            f"\tStress Bottom: {fileResults["stress_bottom"]} MPa",
-            f"\tResistance Top: {fileResults["resistance_top"]} Nm",
-            f"\tResistance Bottom: {fileResults["resistance_bottom"]} Nm",
+            f"\tTensile Flexural Stress: {fileResults['tensile_flexural_stress']} MPa",
+            f"\tCompressive Flexural Stress: {fileResults['compressive_flexural_stress']} MPa",
+            f"\tApplied Negative Moment: {fileResults['applied_negative_moment']} Nm",
+            f"\tStress Top: {fileResults['stress_top']} MPa",
+            f"\tStress Bottom: {fileResults['stress_bottom']} MPa",
+            f"\tResistance Top: {fileResults['resistance_top']} Nm",
+            f"\tResistance Bottom: {fileResults['resistance_bottom']} Nm",
             "",
             "",
             f"\tExtrema of Envelope: {max(resistanceTensTopArray)}\t{min(resistanceTensBottomArray)}"
