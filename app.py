@@ -4,6 +4,7 @@ import pyqtgraph as pg
 
 # IMPORT YOUR PAGE HERE!
 import app_pages.example as example
+from app_pages.approximation_vol_diff import build_all
 import app_pages.flexuralStress as FlexuralStress
 
 # YOU CAN IGNORE THESE! Just click on the arrow to the left of "#region" on the line below this to hide this section.
@@ -47,7 +48,7 @@ def plot(plotData, connect_inputs=[]):
     for i in range(len(connect_inputs)):
         try:
             inputs.append(float(inputs[i].text()))
-        except Exception as e:
+        except Exception:
             inputs.append(0)
     
     x, y, title, xlabel, ylabel = plotData(*inputs)
@@ -79,6 +80,7 @@ def plot(plotData, connect_inputs=[]):
     
     return widget
 
+
 class GraphUpdate:
     def __init__(self, inputs):
         self.inputs = inputs
@@ -90,7 +92,7 @@ class GraphUpdate:
             try:
                 a = float(newInput)
                 self.inputs[inputNum] = a
-            except Exception as e:
+            except Exception:
                 pass
             
             x, y, title, xlabel, ylabel = plotData(*self.inputs)
@@ -133,6 +135,7 @@ def example_page():
     grid.addWidget(graph2, 1, 1)
 
     return widget
+
 
 def flexural_stress_page():
 
@@ -274,13 +277,63 @@ def page_2():
     # Someone replace this with your page so people see the pattern lol
     return QWidget()
 
+
+# wrap imported approximation page function into local function object for PAGE_ORDER
+def approximation_vol_diff_page():
+    widget = QWidget()
+    grid = QGridLayout()
+    widget.setLayout(grid)
+
+    try:
+        results = build_all()
+    except Exception as e:
+        grid.addWidget(QLabel(f"Failed to run analysis: {e}"), 0, 0)
+        return widget
+
+    # prepare data
+    try:
+        stations = list(results['outer']['station'])
+    except Exception:
+        stations = list(results['outer']['station'].to_numpy()) if hasattr(results['outer']['station'], 'to_numpy') else list(results['outer']['station'])
+
+    station_centers = [(stations[i] + stations[i + 1]) / 2 for i in range(len(stations) - 1)]
+    shear = results.get('shear', [])
+    moment = results.get('moment', [])
+    stat_mass = results.get('stat_mass', [])
+    stat_vol = results.get('stat_vol', [])
+
+    # summary
+    summary = [
+        f"Total Mass: {results.get('canoe_mass', 0):.2f} kg",
+        f"Number of Stations: {len(station_centers)}",
+        f"Canoe Length: {max(stations) if stations else 0} mm",
+        f"Max Moment: {max(map(abs, moment)) if moment else 0:.2f} N⋅m",
+    ]
+    grid.addWidget(QLabel("\n".join(summary)), 0, 0)
+
+    # Shear and Moment graphs
+    shear_graph = plot(lambda: (results['x'], shear, "Shear Force", "x (mm)", "Shear (N)"))
+    grid.addWidget(shear_graph, 0, 1)
+
+    moment_graph = plot(lambda: (results['x'], moment, "Bending Moment", "x (mm)", "Moment (N⋅m)"))
+    grid.addWidget(moment_graph, 1, 1)
+
+    mass_graph = plot(lambda: (station_centers, stat_mass, "Mass by Station", "x (mm)", "Mass (kg)"))
+    grid.addWidget(mass_graph, 1, 0)
+
+    vol_graph = plot(lambda: (station_centers, stat_vol, "Volume by Station", "x (mm)", "Volume (mm³)"))
+    grid.addWidget(vol_graph, 2, 0)
+
+    return widget
+
 # --- Array of Page Functions ---
 PAGE_ORDER = [
     example_page,
+    approximation_vol_diff_page,
     flexural_stress_page,
     page_2,
 ]
-
+ 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
