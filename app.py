@@ -1,4 +1,7 @@
 import sys
+import os
+import pandas as pd
+
 from PyQt6.QtWidgets import *
 import pyqtgraph as pg
 
@@ -9,6 +12,88 @@ import app_pages.flexuralStress as FlexuralStress
 
 # YOU CAN IGNORE THESE! Just click on the arrow to the left of "#region" on the line below this to hide this section.
 #region Helper Functions
+
+def importHull(exportDate, exportYear):
+
+    script_dir = os.path.abspath('data')
+
+    # Read in the csv files
+    dfInnerHull = pd.read_csv(os.path.join(script_dir, f"HullDesignExports/{exportYear}/{exportDate}/Hull Inner.csv"), header=None)
+    dfOuterHull = pd.read_csv(os.path.join(script_dir, f"HullDesignExports/{exportYear}/{exportDate}/Hull Outer.csv"), header=None)
+    dfInnerGunwale = pd.read_csv(os.path.join(script_dir, f"HullDesignExports/{exportYear}/{exportDate}/Gunwale Inner.csv"), header=None)
+    dfOuterGunwale = pd.read_csv(os.path.join(script_dir, f"HullDesignExports/{exportYear}/{exportDate}/Gunwale Outer.csv"), header=None)
+
+    # Remove brackets and make data values into decimal numbers
+    dfInnerHull[dfInnerHull.columns[0]] = dfInnerHull[dfInnerHull.columns[0]].apply(lambda x: float(x[1:]))
+    dfInnerHull[dfInnerHull.columns[1]] = dfInnerHull[dfInnerHull.columns[1]].apply(lambda x: float(x))
+    dfInnerHull[dfInnerHull.columns[2]] = dfInnerHull[dfInnerHull.columns[2]].apply(lambda x: float(str(x)[:-1]))
+
+    dfOuterHull[dfOuterHull.columns[0]] = dfOuterHull[dfOuterHull.columns[0]].apply(lambda x: float(str(x)[1:]))
+    dfOuterHull[dfOuterHull.columns[1]] = dfOuterHull[dfOuterHull.columns[1]].apply(lambda x: float(x))
+    dfOuterHull[dfOuterHull.columns[2]] = dfOuterHull[dfOuterHull.columns[2]].apply(lambda x: float(str(x)[:-1]))
+
+    dfInnerGunwale[dfInnerGunwale.columns[0]] = dfInnerGunwale[dfInnerGunwale.columns[0]].apply(lambda x: float(x[1:]))
+    dfInnerGunwale[dfInnerGunwale.columns[1]] = dfInnerGunwale[dfInnerGunwale.columns[1]].apply(lambda x: float(x))
+    dfInnerGunwale[dfInnerGunwale.columns[2]] = dfInnerGunwale[dfInnerGunwale.columns[2]].apply(lambda x: float(str(x)[:-1]))
+
+    dfOuterGunwale[dfOuterGunwale.columns[0]] = dfOuterGunwale[dfOuterGunwale.columns[0]].apply(lambda x: float(str(x)[1:]))
+    dfOuterGunwale[dfOuterGunwale.columns[1]] = dfOuterGunwale[dfOuterGunwale.columns[1]].apply(lambda x: float(x))
+    dfOuterGunwale[dfOuterGunwale.columns[2]] = dfOuterGunwale[dfOuterGunwale.columns[2]].apply(lambda x: float(str(x)[:-1]))
+
+    # Sort the hull points into stations, then by the y-axis
+    dfInnerHull = dfInnerHull.sort_values(by=[dfInnerHull.columns[0], dfInnerHull.columns[1]], ascending=True)
+    dfOuterHull = dfOuterHull.sort_values(by=[dfOuterHull.columns[0], dfOuterHull.columns[1]], ascending=True)
+
+    # Sort the gunwales into stations and then separate into positive and negative
+    dfInnerGunwaleSorted = dfInnerGunwale.sort_values(by=[dfInnerGunwale.columns[0]], ascending=True)
+    dfOuterGunwaleSorted = dfOuterGunwale.sort_values(by=[dfOuterGunwale.columns[0]], ascending=True)
+
+    dfInnerGunwalePosSorted = dfInnerGunwaleSorted[dfInnerGunwaleSorted[dfInnerGunwaleSorted.columns[1]] > 0]
+    dfInnerGunwaleNegSorted = dfInnerGunwaleSorted[dfInnerGunwaleSorted[dfInnerGunwaleSorted.columns[1]] < 0]
+    dfOuterGunwalePosSorted = dfOuterGunwaleSorted[dfOuterGunwaleSorted[dfOuterGunwaleSorted.columns[1]] > 0]
+    dfOuterGunwaleNegSorted = dfOuterGunwaleSorted[dfOuterGunwaleSorted[dfOuterGunwaleSorted.columns[1]] < 0]
+
+    # Split stations
+    dfInnerGunwaleStations = []
+    dfOuterGunwaleStations = []
+
+    for stationLoc in sorted(dfInnerGunwale[dfInnerGunwale.columns[0]].unique()):
+        
+        InnerPos = dfInnerGunwalePosSorted[dfInnerGunwalePosSorted[dfInnerGunwalePosSorted.columns[0]] == stationLoc]
+        InnerNeg = dfInnerGunwaleNegSorted[dfInnerGunwaleNegSorted[dfInnerGunwaleNegSorted.columns[0]] == stationLoc]
+        
+        dfInnerGunwaleStations.append([
+            InnerNeg.sort_values(by=[InnerPos.columns[1]], ascending=False).sort_values(by=[InnerNeg.columns[2]], ascending=False),
+            InnerPos.sort_values(by=[InnerPos.columns[1]], ascending=False).sort_values(by=[InnerPos.columns[2]], ascending=True),
+        ])
+        
+        OuterPos = dfOuterGunwalePosSorted[dfOuterGunwalePosSorted[dfOuterGunwalePosSorted.columns[0]] == stationLoc]
+        OuterNeg = dfOuterGunwaleNegSorted[dfOuterGunwaleNegSorted[dfOuterGunwaleNegSorted.columns[0]] == stationLoc]
+        
+        dfOuterGunwaleStations.append([
+            OuterNeg.sort_values(by=[InnerPos.columns[1]], ascending=False).sort_values(by=[OuterNeg.columns[2]], ascending=False),
+            OuterPos.sort_values(by=[InnerPos.columns[1]], ascending=False).sort_values(by=[OuterPos.columns[2]], ascending=True),
+        ])
+        
+    # Arrange each station
+    dfInnerTotal = pd.DataFrame()
+    dfOuterTotal = pd.DataFrame()
+
+    for station in zip(range(dfInnerHull[dfInnerHull.columns[0]].nunique()), sorted(dfInnerHull[dfInnerHull.columns[0]].unique())):
+        dfInnerTotal = pd.concat([dfInnerTotal, dfInnerGunwaleStations[station[0]][0]], ignore_index=True)
+        dfInnerTotal = pd.concat([dfInnerTotal, dfInnerHull[dfInnerHull[dfInnerHull.columns[0]] == station[1]]], ignore_index=True)
+        dfInnerTotal = pd.concat([dfInnerTotal, dfInnerGunwaleStations[station[0]][1]], ignore_index=True)
+        
+        dfOuterTotal = pd.concat([dfOuterTotal, dfOuterGunwaleStations[station[0]][0]], ignore_index=True)
+        dfOuterTotal = pd.concat([dfOuterTotal, dfOuterHull[dfOuterHull[dfOuterHull.columns[0]] == station[1]]], ignore_index=True)
+        dfOuterTotal = pd.concat([dfOuterTotal, dfOuterGunwaleStations[station[0]][1]], ignore_index=True)
+
+    # Set the Inner anf Outer Hull files
+    dfInnerTotal.to_csv('data/Inner Hull.csv', index=False, header=None)
+    dfOuterTotal.to_csv('data/Outer Hull.csv', index=False, header=None)
+
+    print("CSV files sorted and imported.")
+
 PEN_COLORS = [
     '#1f77b4',  # tab:blue
     '#ff7f0e',  # tab:orange
@@ -273,10 +358,6 @@ def flexural_stress_page():
 
     return widget
 
-def page_2():
-    # Someone replace this with your page so people see the pattern lol
-    return QWidget()
-
 
 # wrap imported approximation page function into local function object for PAGE_ORDER
 def approximation_vol_diff_page():
@@ -331,12 +412,14 @@ PAGE_ORDER = [
     example_page,
     approximation_vol_diff_page,
     flexural_stress_page,
-    page_2,
 ]
  
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        
+        # Enter date of the files (Inner Gunwale.csv)
+        importHull("Oct4", "2025")
 
         self.setWindowTitle("UWaterloo Concrete Canoe Structural Analysis")
         self.resize(1200, 800)
