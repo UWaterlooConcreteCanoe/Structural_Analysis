@@ -165,7 +165,6 @@ def plot(plotData, connect_inputs=[]):
     
     return widget
 
-
 class GraphUpdate:
     def __init__(self, inputs):
         self.inputs = inputs
@@ -382,7 +381,7 @@ def approximation_vol_diff_page():
     moment = results.get('moment', [])
     stat_mass = results.get('stat_mass', [])
     stat_vol = results.get('stat_vol', [])
-
+  
     # summary
     summary = [
         f"Total Mass: {results.get('canoe_mass', 0):.2f} kg",

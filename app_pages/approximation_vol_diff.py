@@ -122,6 +122,10 @@ def compute_shear_and_moment(stat_mass, station, x_out, stand_positions=None, g=
     """Compute shear and bending moment along the canoe length.
     Returns: x (list), shear (list), moment (list), stand_positions
     """
+    
+    canoe_mass = sum(stat_mass)
+    stand_force = g * canoe_mass/2
+    
     if stand_positions is None:
         length = max(x_out)
         stand_positions = [length / 3, length / 3 * 2]
@@ -138,7 +142,7 @@ def compute_shear_and_moment(stat_mass, station, x_out, stand_positions=None, g=
                 shear_force += (-1) * stat_mass[j] * g
         for sp in stand_positions:
             if xi >= sp:
-                shear_force += 0  # placeholder: stand force addition can be added by caller
+                shear_force += stand_force
         shear.append(shear_force)
 
     # compute bending moment from shear
@@ -209,7 +213,3 @@ def build_all(data_dir: str = DEFAULT_DATA_DIR,
     }
 
     return results
-
-
-if __name__ == '__main__':
-    res = build_all()
