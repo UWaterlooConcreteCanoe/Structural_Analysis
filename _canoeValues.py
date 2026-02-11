@@ -2,8 +2,7 @@
 # ------------ Universal Constants ------------ #
 water_density = 1000 # Density of water = 1000 kg/m^3
 g = 9.81 # Gravity [m/s^2]  
-# Weights in lbs 130,       150,        175,        200         140 :( [Kielen made me do this]
-pad_weights =   [58.967,    68.0389,    79.3787,    90.7185,    63.5029] # Paddler weight classes (kg)
+pad_weights = [105, 83, 70, 65, 57] # Paddler weight classes (kg)
 DLF = 1.25
 # LLF goes here someday maybe
 safety_factor = 1.2
@@ -16,14 +15,14 @@ kneecap_length = 50 # Kneecap area length [mm]
 kneecap_width = 50 # Kneecap area width [mm]
 
 # ------------ Canoe-specific Constants ------------ #
-concrete_density = 950 # kg/m^3 (dry density)
-compressive_strength = 13 # MPa (f_c)
+concrete_density = 970 # kg/m^3 (dry density)
+compressive_strength = 12 # MPa (f_c)
 # red
-tensile_strength = 1.5 # MPa
-concrete_thickness = 8 # mm
+tensile_strength = 1.7 # MPa
+concrete_thickness = 10 # mm
 
 hasLayer1 = 1 # If the canoe has 1 layer of mesh
-d_mesh_1 = 8 # distance between the first layer of reinforcement to the surface (top) [mm]
+d_mesh_1 = 5 # distance between the first layer of reinforcement to the surface (top) [mm]
 hasLayer2 = 0 # If the canoe has 2 layers of mesh
 d_mesh_2 = 0 # distance between the second layer of reinforcement to the surface (top) [mm]
 
