@@ -5,7 +5,7 @@ g = 9.81 # Gravity [m/s^2]
 pad_weights = [105, 83, 70, 65, 57] # Paddler weight classes (kg)
 DLF = 1.25
 # LLF goes here someday maybe
-safety_factor = 1.2
+safety_factor = 1.35
 lamda = 0.75
 beta = 0.21
 
