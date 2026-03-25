@@ -5,7 +5,7 @@ g = 9.81 # Gravity [m/s^2]
 pad_weights = [105, 83, 70, 65, 57] # Paddler weight classes (kg)
 DLF = 1.25
 # LLF goes here someday maybe
-safety_factor = 1.2
+safety_factor = 1.35
 lamda = 0.75
 beta = 0.21
 
@@ -16,13 +16,13 @@ kneecap_width = 50 # Kneecap area width [mm]
 
 # ------------ Canoe-specific Constants ------------ #
 concrete_density = 970 # kg/m^3 (dry density)
-compressive_strength = 12 # MPa (f_c)
+compressive_strength = 11.5 # MPa (f_c)
 # red
 tensile_strength = 1.7 # MPa
 concrete_thickness = 10 # mm
 
 hasLayer1 = 1 # If the canoe has 1 layer of mesh
-d_mesh_1 = 5 # distance between the first layer of reinforcement to the surface (top) [mm]
+d_mesh_1 = 10 # distance between the first layer of reinforcement to the surface (top) [mm]
 hasLayer2 = 0 # If the canoe has 2 layers of mesh
 d_mesh_2 = 0 # distance between the second layer of reinforcement to the surface (top) [mm]
 
@@ -30,7 +30,7 @@ mesh_thickness = 0.5 # mm
 
 # Waterlines for 2, 3, 4, 6 paddler cases [mm]
 # grasshopper = [150, 140, 140, 0]
-grasshopper = [138.93, 138.93, 138.93, -100]
+grasshopper = [138.93, 138.93, 138.93, -100] # outdated (double-check though)
 
 # ------------ Reinforcement Property ------------ #
 phi_s = 0.85
