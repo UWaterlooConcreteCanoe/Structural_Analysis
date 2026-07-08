@@ -35,7 +35,7 @@ grasshopper = [138.93, 138.93, 138.93, -100] # outdated (double-check though)
 # ------------ Reinforcement Property ------------ #
 phi_s = 0.85
 fy = 1725 # [MPa] # outdated
-phi_c = 0.8
+phi_c = 1 # was 0.8
 E_s = 72400 # [MPa] # outdated
 layer_unit_1 = 297.66 # one lap for layer 1 [mm^2/m]
 layer_unit_2 = 297.66 # one lap for layer 2
