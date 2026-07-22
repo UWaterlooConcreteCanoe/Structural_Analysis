@@ -87,6 +87,10 @@ Calculates the punching shear stress at the canoe’s critical location, punchin
 
 (Zach)
 
+### Stability Analysis
+
+(Asher)
+
 ### Torsional Analysis
 
 Relies On:
