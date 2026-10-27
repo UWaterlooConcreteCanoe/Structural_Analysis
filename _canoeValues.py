@@ -12,7 +12,7 @@ beta = 0.21
 alpha_s = 4 # As per CSA A23.3-14 CL 13.3.4.1 (13-7)
 
 kneecap_length = 50 # Kneecap area length [mm]
-kneecap_width = 50 # Kneecap area width [mm]
+kneecap_width = 10 # Kneecap area width [mm]
 
 # ------------ Canoe-specific Constants ------------ #
 concrete_density = 973 # kg/m^3 (dry density)
