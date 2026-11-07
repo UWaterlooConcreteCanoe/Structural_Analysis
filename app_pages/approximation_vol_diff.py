@@ -82,18 +82,19 @@ def compute_hull_station_volumes(x, y, z):
             h = abs(X1_value - X2_value)
             volume = l * w * h / 3
         elif len(Y1) != 0:
-            n = (len(Y1) - 1) // 2
-            for j in range(0, n):
-                area1 = (abs(Y1[j]) + abs(Y1[j + 1])) * abs(Z1[j] - Z1[j + 1]) / 2 * 2
-                area2 = (abs(Y2[j]) + abs(Y2[j + 1])) * abs(Z2[j] - Z2[j + 1]) / 2 * 2
+            n = (len(Y1)-1)//2
+            for j in range(0,n,1):
+                area1 = abs((Y1[j]+Y1[j+1])/2) * abs(Z1[j] - Z1[j+1]) * 2
+                area2 = abs((Y2[j]+Y2[j+1])/2) * abs(Z2[j] - Z2[j+1]) * 2
+                volume += abs(X1_value - X2_value)*(area1 + area2)/2
                 crossSectionArea[k] -= ((abs(Y1[j]) - abs(Y1[j + 1])) * abs(Z1[j] - Z1[j + 1]) + (abs(Y2[j]) - abs(Y2[j + 1])) * abs(Z2[j] - Z2[j + 1])) / 2
-                volume += abs(X1_value - X2_value) * (area1 + area2) / 2
-            # triangle at bottom
-            area1 = abs(Y1[n - 1]) * abs(Z1[n] - Z1[n - 1]) / 2 * 2
-            area2 = abs(Y2[n - 1]) * abs(Z2[n] - Z2[n - 1]) / 2 * 2
-            crossSectionArea[k] -= (area1 + area2) / 2
-            volume += abs(X1_value - X2_value) * (area1 + area2) / 2
-
+            # triangle piece at the bottom
+            if (len(Y1)-1)%2 != 0:
+                area1 = abs(Y1[n-1]) * abs(Z1[n] - Z1[n-1])/2 * 2
+                area2 = abs(Y2[n-1]) * abs(Z2[n] - Z2[n-1])/2 * 2
+                volume += abs(X1_value - X2_value)*(area1 + area2)/2
+                crossSectionArea[k] -= (area1 + area2) / 2
+                
         vol.append(volume)
 
     return {
